@@ -1,4 +1,4 @@
 services:
     opentbs:
-        class:        MBence\OpenTBSBundle\Services\OpenTBS
+        class:        Zwirner\OpenTBSBundle\Services\OpenTBS
         arguments:    []

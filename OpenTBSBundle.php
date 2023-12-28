@@ -1,6 +1,6 @@
 <?php
 
-namespace MBence\OpenTBSBundle;
+namespace Zwirner\OpenTBSBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

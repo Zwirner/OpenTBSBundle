@@ -40,10 +40,10 @@ OpenTBS - 1.9.7
 ### Step 1: Download the bundle using composer
 
 ``` bash
-> composer require mbence/opentbs-bundle
+> composer require zwirner/opentbs-bundle
 ```
 
-Composer will install the bundle to your project's `vendor/mbence/opentbs-bundle` directory.
+Composer will install the bundle to your project's `vendor/zwirner/opentbs-bundle` directory.
 
 ### Step 2: Enable the bundle in your AppKernel
 
@@ -55,7 +55,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new MBence\OpenTBSBundle\OpenTBSBundle(),
+        new Zwirner\OpenTBSBundle\OpenTBSBundle(),
     );
 }
 ```

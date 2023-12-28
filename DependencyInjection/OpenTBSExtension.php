@@ -1,6 +1,6 @@
 <?php
 
-namespace MBence\OpenTBSBundle\DependencyInjection;
+namespace Zwirner\OpenTBSBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

@@ -873,7 +873,7 @@ function __construct($Options=null,$VarPrefix='',$FctPrefix='', $globalInfo = []
 	$this->ResetVarRef(true);
 	
 	// Set options
-	self::$_globalInfo = $globalInfo;
+	self::$globalInfo = $globalInfo;
 	if (is_array($Options)) $this->SetOption($Options);
 
 	// Links to global variables (cannot be converted to static yet because of compatibility)
@@ -932,10 +932,10 @@ function SetOption($o, $v=false, $d=false) {
 		$this->_ChrVal = $this->_ChrOpen.'val'.$this->_ChrClose;
 		$this->_ChrProtect = '&#'.ord($this->_ChrOpen[0]).';'.substr($this->_ChrOpen,1);
 	}
-	if (array_key_exists('tpl_frms',$o))      self::f_Misc_UpdateArray($self::$_globalInfo['_TBS_FormatLst'], 'frm', $o['tpl_frms'], $d);
-	if (array_key_exists('block_alias',$o))   self::f_Misc_UpdateArray($self::$_globalInfo['_TBS_BlockAlias'], false, $o['block_alias'], $d);
-	if (array_key_exists('prm_combo',$o))     self::f_Misc_UpdateArray($self::$_globalInfo['_TBS_PrmCombo'], 'prm', $o['prm_combo'], $d);
-	if (array_key_exists('parallel_conf',$o)) self::f_Misc_UpdateArray($self::$_globalInfo['_TBS_ParallelLst'], false, $o['parallel_conf'], $d);
+	if (array_key_exists('tpl_frms',$o))      self::f_Misc_UpdateArray(self::$globalInfo['_TBS_FormatLst'], 'frm', $o['tpl_frms'], $d);
+	if (array_key_exists('block_alias',$o))   self::f_Misc_UpdateArray(self::$globalInfo['_TBS_BlockAlias'], false, $o['block_alias'], $d);
+	if (array_key_exists('prm_combo',$o))     self::f_Misc_UpdateArray(self::$globalInfo['_TBS_PrmCombo'], 'prm', $o['prm_combo'], $d);
+	if (array_key_exists('parallel_conf',$o)) self::f_Misc_UpdateArray(self::$globalInfo['_TBS_ParallelLst'], false, $o['parallel_conf'], $d);
 	if (array_key_exists('include_path',$o))  self::f_Misc_UpdateArray($this->IncludePath, true, $o['include_path'], $d);
 	if (isset($o['render'])) $this->Render = $o['render'];
 	if (isset($o['methods_allowed'])) $this->MethodsAllowed = $o['methods_allowed'];
@@ -964,16 +964,16 @@ function GetOption($o) {
 	if ($o==='tpl_frms') {
 		// simplify the list of formats
 		$x = array();
-		foreach (self::$_globalInfo['_TBS_FormatLst'] as $s=>$i) $x[$s] = $i['Str'];
+		foreach (self::$globalInfo['_TBS_FormatLst'] as $s=>$i) $x[$s] = $i['Str'];
 		return $x;
 	}
 	if ($o==='include_path') return $this->IncludePath;
 	if ($o==='render') return $this->Render;
 	if ($o==='methods_allowed') return $this->MethodsAllowed;
 	if ($o==='scripts_allowed') return $this->ScriptsAllowed;
-	if ($o==='parallel_conf') return self::$_globalInfo['_TBS_ParallelLst'];
-	if ($o==='block_alias') return self::$_globalInfo['_TBS_BlockAlias'];
-	if ($o==='prm_combo') return self::$_globalInfo['_TBS_PrmCombo'];
+	if ($o==='parallel_conf') return self::$globalInfo['_TBS_ParallelLst'];
+	if ($o==='block_alias') return self::$globalInfo['_TBS_BlockAlias'];
+	if ($o==='prm_combo') return self::$globalInfo['_TBS_PrmCombo'];
 	return $this->meth_Misc_Alert('with GetOption() method','option \''.$o.'\' is not supported.');;
 }
 
@@ -997,8 +997,8 @@ public function GetVarRefItem($key, $default) {
 
 	if (is_null($this->VarRef)) {
 		
-		if (array_key_exists($key, self::$_globalInfo)) {
-			return self::$_globalInfo[$key];
+		if (array_key_exists($key, self::$globalInfo)) {
+			return self::$globalInfo[$key];
 		} else {
 			return $default;
 		}
@@ -1034,9 +1034,9 @@ public function SetVarRefItem($keyOrList, $value = null) {
 		
 		foreach ($list as $key => $value) {
 			if (is_null($value)) {
-				unset(self::$_globalInfo[$key]);
+				unset(self::$globalInfo[$key]);
 			} else {
-				self::$_globalInfo[$key] = $value;
+				self::$globalInfo[$key] = $value;
 			}
 		}
 
@@ -3156,8 +3156,8 @@ function meth_Merge_AutoVar(&$Txt,$ConvStr,$Id='var') {
 			}
 		} elseif ( isset($this->VarRef) && isset($this->VarRef[$Loc->SubLst[0]])) {
 			$Pos = $this->meth_Locator_Replace($Txt,$Loc, $this->VarRef[$Loc->SubLst[0]], 1);
-		} elseif ( is_null($this->VarRef) && isset(self::$_globalInfo[$Loc->SubLst[0]]) ) {
-			$Pos = $this->meth_Locator_Replace($Txt,$Loc, self::$_globalInfo[$Loc->SubLst[0]], 1);
+		} elseif ( is_null($this->VarRef) && isset(self::$globalInfo[$Loc->SubLst[0]]) ) {
+			$Pos = $this->meth_Locator_Replace($Txt,$Loc, self::$globalInfo[$Loc->SubLst[0]], 1);
 		} else {
 			if (isset($Loc->PrmLst['noerr'])) {
 				$Pos = $this->meth_Locator_Replace($Txt,$Loc,$x,false);
@@ -3184,7 +3184,7 @@ function meth_Merge_AutoSpe(&$Txt,&$Loc) {
 		switch ($Loc->SubLst[1]) {
 		case 'now': $x = time(); break;
 		case 'version': $x = $this->Version; break;
-		case 'script_name': $x = basename(((isset($_SERVER)) ? $_SERVER['PHP_SELF'] : self::$_globalInfo['HTTP_SERVER_VARS']['PHP_SELF'] )); break;
+		case 'script_name': $x = basename(((isset($_SERVER)) ? $_SERVER['PHP_SELF'] : self::$globalInfo['HTTP_SERVER_VARS']['PHP_SELF'] )); break;
 		case 'template_name': $x = $this->_LastFile; break;
 		case 'template_date': $x = ''; if ($this->f_Misc_GetFile($x,$this->_LastFile,'',array(),false)) $x = $x['mtime']; break;
 		case 'template_path': $x = dirname($this->_LastFile).'/'; break;
@@ -4160,7 +4160,7 @@ static function meth_Misc_ApplyPrmCombo(&$PrmLst, $Loc) {
 	if (isset($PrmLst['combo'])) {
 		
 		$name_lst = explode(',', $PrmLst['combo']);
-		$DefLst = &self::$_globalInfo['_TBS_PrmCombo'];
+		$DefLst = &self::$globalInfo['_TBS_PrmCombo'];
 		
 		foreach ($name_lst as $name) {
 			if (isset($DefLst[$name])) {
@@ -4253,7 +4253,7 @@ static function meth_Misc_ApplyPrmCombo(&$PrmLst, $Loc) {
 
 static function f_Misc_FormatSave(&$FrmStr,$Alias='') {
 
-	$FormatLst = &self::$_globalInfo['_TBS_FormatLst'];
+	$FormatLst = &self::$globalInfo['_TBS_FormatLst'];
 
 	if (isset($FormatLst[$FrmStr])) {
 		if ($Alias!='') $FormatLst[$Alias] = &$FormatLst[$FrmStr];
@@ -4871,7 +4871,7 @@ static function f_Loc_EnlargeToStr(&$Txt,&$Loc,$StrBeg,$StrEnd) {
 static function f_Loc_EnlargeToTag(&$Txt,&$Loc,$TagStr,$RetInnerSrc) {
 //Modify $Loc, return false if tags not found, returns the inner source of tag if $RetInnerSrc=true
 
-	$AliasLst = &self::$_globalInfo['_TBS_BlockAlias'];
+	$AliasLst = &self::$globalInfo['_TBS_BlockAlias'];
 
 	// Analyze string
 	$Ref = 0;
