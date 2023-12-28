@@ -10,10 +10,10 @@ require_once __DIR__ . '/../lib/tbs_plugin_opentbs.php';
  */
 class OpenTBS extends \clsTinyButStrong
 {
-    public function __construct()
+    public function __construct($Options=null,$VarPrefix='',$FctPrefix='', $globalInfo = [])
     {
         // construct the TBS class
-        parent::__construct();
+        parent::__construct($Options,$VarPrefix,$FctPrefix, $globalInfo);
 
         // load the OpenTBS plugin
         $this->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
