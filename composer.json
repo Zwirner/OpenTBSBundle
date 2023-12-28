@@ -1,9 +1,9 @@
 {
-    "name": "mbence/opentbs-bundle",
+    "name": "zwirner/opentbs-bundle",
     "type": "symfony-bundle",
     "description": "OpenTBS Bundle for Symfony - create OpenOffice and Ms Office documents with Symfony",
     "keywords": ["symfony","TBS","OpenTBS", "document", "OpenOffice", "MS Office", "odt", "docx", "xlsx", "pptx"],
-    "homepage": "https://github.com/mbence/OpenTBSBundle",
+    "homepage": "https://github.com/zwirner/OpenTBSBundle",
     "license": "MIT",
     "authors": [
         {
@@ -21,8 +21,8 @@
     ],
     "autoload": {
         "psr-0": {
-            "MBence\\OpenTBSBundle": ""
+            "Zwirner\\OpenTBSBundle": ""
         }
     },
-    "target-dir": "MBence/OpenTBSBundle"
+    "target-dir": "Zwirner/OpenTBSBundle"
 }
